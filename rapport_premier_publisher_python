@@ -24,22 +24,19 @@ pour utiliser des string comme recipient pour nos messages que l'on va publier
 ==== L'interface de communication
 
 .Le Publisher
-[source,python]
 ----
 	pub = rospy.Publisher('chatter', String, queue_size=10)
 ----
-on declare pub comme etant un publisher sur le topic 'chatter' , puis que le type de message envoyé est de type String , et le troisieme parametre est la nombre de message que peut contenir la queue .
-WARNING:[red big]*Present que sur hYDRO PAS SUR QUE SA MARCHE SUR FUERTE!!!!*
+on declare pub comme etant un publisher sur le topic 'chatter' , puis que le type de message envoyé est de type String , et le troisieme parametre est la nombre de message que peut contenir la queue . +
+WARNING: *Present que sur hYDRO PAS SUR QUE SA MARCHE SUR FUERTE!!!!*
 
 .L'init
-[source,python]
 ----
 	rospy.init_node('talker', anonymous=True)
 ----
 Ligne tres importante qui donne a rospy le nom du noeud , sans cela on ne peut communiquer avec le ROS Master. (meme contrainte sur le nom que avec roscpp).
 
 .La frequece d'emission
-[source,python]
 ----
  r = rospy.Rate(10) # 10hz
 ----
@@ -47,7 +44,6 @@ Cette creer un objet rate la frquence a laquelle on veut ecrire sur le topic est
 
 ==== La BOUCLE 
 .Boucle d'envoie sur ROS 
-[source,C++]
 ----
     while not rospy.is_shutdown():
         str = "hello world %s"%rospy.get_time()
@@ -55,7 +51,7 @@ Cette creer un objet rate la frquence a laquelle on veut ecrire sur le topic est
         pub.publish(str)
         r.sleep()
 ----
-	*on verfie que si on doit exit ou non le programme a l'aide de rospy.is_shutdown()
+	* on verfie que si on doit exit ou non le programme a l'aide de rospy.is_shutdown()
 	* on creer notre message str  
 	* on ecrit dans les ros log info la chaine str
 	* notre objet publisher pub publie str sur le topic chatter
@@ -70,7 +66,7 @@ Cette creer un objet rate la frquence a laquelle on veut ecrire sur le topic est
      * on initialise ROS (pareil que pour publisher)
      * on s'inscrit au topic (dans notre cas chatter)
      * on "spin()" cad  on attend un message pour qu'il arrive , continuera d'exister tant qu'on ne le stoppe pas . 
-     * quand le message arrive la fonction Callback() est appellé
-NOTE: Callback est une fonction qui ecrit dans les log info le message recue (dans notre cas .).
+     * quand le message arrive la fonction Callback() est appellé +
+NOTE: Callback est une fonction qui ecrit dans les log info le message recue (dans notre cas ).
 
 

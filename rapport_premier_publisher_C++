@@ -39,7 +39,7 @@ Permet de spécifier la frquence a laquelle on veut ecrire sur le topic , ici 10
 
 ==== La BOUCLE 
 .Boucle d'envoie sur ROS 
-[source,C++]
+
 ----
  int count = 0;
   while (ros::ok())
@@ -56,7 +56,7 @@ cas ou ros::ok() return false :
 
 ==== L'envoie de message 
 .envoie de message sur ROS 
-[source,C++]
+
 ----
    std_msgs::String msg;
 
@@ -71,7 +71,7 @@ cas ou ros::ok() return false :
 ==== La publication du message a tout le monde 
 
 .Publication
-[source,C++]
+
 ----
     chatter_pub.publish(msg);
 ----
@@ -79,14 +79,14 @@ cas ou ros::ok() return false :
 ==== Ecriture dans la rosconsole des infos :
 
 .ecriture dans la  console 
-[source,C++]
+
 ----
 ROS_INFO("%s", msg.data.c_str());
 ----
 
 ==== Recuperation des callback (si il y en a ,pas dans notre cas...)
 .callbacks si on est aussi subscriber
-[source,C++]
+
 ----
     ros::spinOnce();
 ----
