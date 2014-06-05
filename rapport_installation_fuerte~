@@ -1,0 +1,34 @@
+ABAK-KALI Nizar 11290569
+	  INSTALLATION DE FUERTE 
+
+02/06/2014
+-----------
+lien du tuto d'installation (en)
+http://wiki.ros.org/fuerte/Installation/Ubuntu
+
+1/recuperation des source list puis ajout 
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu precise main" > /etc/apt/sources.list.d/ros-latest.list'
+
+2/recuperation des clés
+wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+
+3/on update 
+sudo apt-get update 
+
+4/reboot 
+sudo reboot now 
+
+5/on install la version complète de fuerte 
+sudo apt-get install ros-fuerte-desktop-full
+
+6/on change l'environement de notre shell courrant avec la commande :
+source /opt/ros/fuerte/setup.bash
+
+7/on installe python-rosinstall et python-rosdep
+     rosinstall va servir à télecharger de maniere facile les arbres de code pour les package ROS
+     rosdep nous permet d'installer facilement les dependance pour le code source que l'on vas compilé
+sudo apt-get install python-rosinstall python-rosdep
+
+8/
+
+

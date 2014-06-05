@@ -1,0 +1,110 @@
+PUBLISHER/SUBSCRIBER C++ 
+========================
+:Author: ABAK-KALI Nizar
+:Email: nizarabakkali93@gmail.com
+:Date: 04/06/2014
+
+
+
+ceci est un petit rapport qui vas expliquer le premier publisher qui nous est donné de faire dans le tuto en ligne 
+
+== Les Includes :
+
+==== "ros/ros.h"
+bibliotheque standard de ros contient tout les headers necessaire a l'utilisation des outils public de ROS .
+
+==== "std_msgs/String.h"
+Cette biblio contient le std_msgs/String qui est present dans le package std_msgs.
+Il s'agit d'un header automatiquement généré depuis le fichier String.msg .
+
+== Le Code :
+
+=== Le Publisher :
+
+==== ros::init(argc,argv,"talker");
+On initialise ros et on donne le nom du noeud ici "talker".
+Important: le nom des noeud doivent etre unique et doit etre sans caractere comme /
+
+====  ros::NodeHandle n
+Le nodeHandle nous donne une prise en main du processus du noeud. 
+le 1e handle fera l'initialisation du noeud et le dernier detruit nettoira tout les ressource utilisé par le noeud.
+
+==== "ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000)"
+-> on dit au master que l'on va publie un message de type std_msgs/String sur le topic "chatter"
+-> ainsi le master peut dire au autre noeud inscrit que l'on va publier sur le topic chatter .
+-> l'argument 1000 est la quantité maximale de message que la queue peut contenir avant d'effacer les anciens 
+
+==== ros::Rate loop_rate(10)
+Permet de spécifier la frquence a laquelle on veut ecrire sur le topic , ici 10 .
+
+==== La BOUCLE 
+.Boucle d'envoie sur ROS 
+[source,C++]
+----
+ int count = 0;
+  while (ros::ok())
+  {
+----
+roscpp install de base un handler sur le SIGINT(signal d'interruption) ce qui fournit aussi un handler sur la commande ctrl+C ce qui causera le ok() de passer de "true" a "false"
+
+cas ou ros::ok() return false :
+    * un Ctrl+c
+    * on se fait virer du reseau par un autre noeud qui porte le meme nom.
+    * un ros::shutdown() appelé par une autre partie de l'application 
+    * tout les NodeHandle ont été détruit 
+
+
+==== L'envoie de message 
+.envoie de message sur ROS 
+[source,C++]
+----
+   std_msgs::String msg;
+
+    std::stringstream ss;
+    ss << "hello world " << count;
+    msg.data = ss.str();
+----
+ On creer un message de type String simple . +
+ Ensuite on remplie un stringstream qui va contenir la concatenation  des donnée voulue +
+ msg.data recoit la chaine formater en string .
+ 
+==== La publication du message a tout le monde 
+
+.Publication
+[source,C++]
+----
+    chatter_pub.publish(msg);
+----
+
+==== Ecriture dans la rosconsole des infos :
+
+.ecriture dans la  console 
+[source,C++]
+----
+ROS_INFO("%s", msg.data.c_str());
+----
+
+==== Recuperation des callback (si il y en a ,pas dans notre cas...)
+.callbacks si on est aussi subscriber
+[source,C++]
+----
+    ros::spinOnce();
+----
+
+==== On endort le noeud pour arreter 
+.Un petit somme ^^ le temps de respecter notre frequence de 10hz
+----
+    loop_rate.sleep();
+----
+
+=== Le Subsriber :
+
+==== Version condenséé du code :
+
+     * on initialise ROS (pareil que pour publisher)
+     * on s'inscrit au topic (dans notre cas chatter)
+     * on "spin()" cad  on attent un message pour qu'il arrive 
+     * quand il arrive la fonction chatterCallback() est appellé
+NOTE: chatterCallback est une fonction qui ecrit dans les log info le message recue (dans notre cas .).
+
+

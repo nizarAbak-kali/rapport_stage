@@ -1,0 +1,32 @@
+ServiceNode ROS python/C++
+===========================
+:Author: ABAK-KALI Nizar
+:Email: nizarabakkali93@gmail.com
+:Date: 04/06/2014
+
+.Kézako
+petite doc pour creer un ServiceNode sur ROS
+
+= python 
+
+on initialise le noeud avec init_node() .
+
+. Declaration du service 
+[source,python]
+----
+    s = rospy.Service('add_two_ints', AddTwoInts, handle_add_two_ints)
+----
+on nomme le service 'add_two_int' avec AddTwoInts comme type de service .
+
+. Keeping the code existing 
+[source,python]
+----
+    rospy.spin()
+----
+.
+
+= C++
+
+
+ 
+
