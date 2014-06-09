@@ -16,4 +16,19 @@ def ascils (path):
         #boucle sur les fichier dans le dossier 
         #chaque fichier va se faire asciidoc 
         for i in files :
-             proc = subprocess.Popen([,''],)
+            nom_fichier_complet = root + i
+            print "on traite le fichier :" + nom_fichier_complet 
+            proc = subprocess.Popen([sys.executable,'~/./asciidoci ',nom_fichier_complet],stdout=subprocess.PIPE)
+
+        for j in dir:
+            print "on traite le fichier :" + nom_fichier_complet 
+            ascils(j)
+
+
+if __name__ == "__main__" :
+    if len(sys.argv) > 1:
+        print "pas le bon nombre d'argument"
+        print "pas encore la fonctionnalite ... (-_-)' "
+    else :
+        path = "."
+        ascils(path)

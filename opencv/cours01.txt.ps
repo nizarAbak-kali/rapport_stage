@@ -1,0 +1,1173 @@
+%!PS-Adobe-3.0
+%%BoundingBox: 18 36 577 806
+%%Title: Enscript Output
+%%Creator: GNU enscript 1.6.4
+%%CreationDate: Mon Jan 18 23:35:36 2010
+%%Orientation: Landscape
+%%Pages: (atend)
+%%DocumentMedia: A4 595 842 0 () ()
+%%DocumentNeededResources: (atend)
+%%EndComments
+%%BeginProlog
+%%BeginResource: procset Enscript-Prolog 1.6 4
+%
+% Procedures.
+%
+
+/_S {	% save current state
+  /_s save def
+} def
+/_R {	% restore from saved state
+  _s restore
+} def
+
+/S {	% showpage protecting gstate
+  gsave
+  showpage
+  grestore
+} bind def
+
+/MF {	% fontname newfontname -> -	make a new encoded font
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  % insert only valid encoding vectors
+  encoding_vector length 256 eq {
+    newfont /Encoding encoding_vector put
+  } if
+
+  newfontname newfont definefont pop
+} def
+
+/MF_PS { % fontname newfontname -> -	make a new font preserving its enc
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  newfontname newfont definefont pop
+} def
+
+/SF { % fontname width height -> -	set a new font
+  /height exch def
+  /width exch def
+
+  findfont
+  [width 0 0 height 0 0] makefont setfont
+} def
+
+/SUF { % fontname width height -> -	set a new user font
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF
+  /F-gs-user-font width height SF
+} def
+
+/SUF_PS { % fontname width height -> -	set a new user font preserving its enc
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF_PS
+  /F-gs-user-font width height SF
+} def
+
+/M {moveto} bind def
+/s {show} bind def
+
+/Box {	% x y w h -> -			define box path
+  /d_h exch def /d_w exch def /d_y exch def /d_x exch def
+  d_x d_y  moveto
+  d_w 0 rlineto
+  0 d_h rlineto
+  d_w neg 0 rlineto
+  closepath
+} def
+
+/bgs {	% x y height blskip gray str -> -	show string with bg color
+  /str exch def
+  /gray exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    gray setgray
+    fill
+  grestore
+  x y M str s
+} def
+
+/bgcs { % x y height blskip red green blue str -> -  show string with bg color
+  /str exch def
+  /blue exch def
+  /green exch def
+  /red exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    red green blue setrgbcolor
+    fill
+  grestore
+  x y M str s
+} def
+
+% Highlight bars.
+/highlight_bars {	% nlines lineheight output_y_margin gray -> -
+  gsave
+    setgray
+    /ymarg exch def
+    /lineheight exch def
+    /nlines exch def
+
+    % This 2 is just a magic number to sync highlight lines to text.
+    0 d_header_y ymarg sub 2 sub translate
+
+    /cw d_output_w cols div def
+    /nrows d_output_h ymarg 2 mul sub lineheight div cvi def
+
+    % for each column
+    0 1 cols 1 sub {
+      cw mul /xp exch def
+
+      % for each rows
+      0 1 nrows 1 sub {
+        /rn exch def
+        rn lineheight mul neg /yp exch def
+        rn nlines idiv 2 mod 0 eq {
+	  % Draw highlight bar.  4 is just a magic indentation.
+	  xp 4 add yp cw 8 sub lineheight neg Box fill
+	} if
+      } for
+    } for
+
+  grestore
+} def
+
+% Line highlight bar.
+/line_highlight {	% x y width height gray -> -
+  gsave
+    /gray exch def
+    Box gray setgray fill
+  grestore
+} def
+
+% Column separator lines.
+/column_lines {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h translate
+    /cw d_output_w cols div def
+    1 1 cols 1 sub {
+      cw mul 0 moveto
+      0 d_output_h rlineto stroke
+    } for
+  grestore
+} def
+
+% Column borders.
+/column_borders {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h moveto
+    0 d_output_h rlineto
+    d_output_w 0 rlineto
+    0 d_output_h neg rlineto
+    closepath stroke
+  grestore
+} def
+
+% Do the actual underlay drawing
+/draw_underlay {
+  ul_style 0 eq {
+    ul_str true charpath stroke
+  } {
+    ul_str show
+  } ifelse
+} def
+
+% Underlay
+/underlay {	% - -> -
+  gsave
+    0 d_page_h translate
+    d_page_h neg d_page_w atan rotate
+
+    ul_gray setgray
+    ul_font setfont
+    /dw d_page_h dup mul d_page_w dup mul add sqrt def
+    ul_str stringwidth pop dw exch sub 2 div ul_h_ptsize -2 div moveto
+    draw_underlay
+  grestore
+} def
+
+/user_underlay {	% - -> -
+  gsave
+    ul_x ul_y translate
+    ul_angle rotate
+    ul_gray setgray
+    ul_font setfont
+    0 0 ul_h_ptsize 2 div sub moveto
+    draw_underlay
+  grestore
+} def
+
+% Page prefeed
+/page_prefeed {		% bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} def
+
+% Wrapped line markers
+/wrapped_line_mark {	% x y charwith charheight type -> -
+  /type exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  type 2 eq {
+    % Black boxes (like TeX does)
+    gsave
+      0 setlinewidth
+      x w 4 div add y M
+      0 h rlineto w 2 div 0 rlineto 0 h neg rlineto
+      closepath fill
+    grestore
+  } {
+    type 3 eq {
+      % Small arrows
+      gsave
+        .2 setlinewidth
+        x w 2 div add y h 2 div add M
+        w 4 div 0 rlineto
+        x w 4 div add y lineto stroke
+
+        x w 4 div add w 8 div add y h 4 div add M
+        x w 4 div add y lineto
+	w 4 div h 8 div rlineto stroke
+      grestore
+    } {
+      % do nothing
+    } ifelse
+  } ifelse
+} def
+
+% EPSF import.
+
+/BeginEPSF {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack
+  userdict begin
+  /showpage { } def
+  0 setgray 0 setlinecap
+  1 setlinewidth 0 setlinejoin
+  10 setmiterlimit [ ] 0 setdash newpath
+  /languagelevel where {
+    pop languagelevel
+    1 ne {
+      false setstrokeadjust false setoverprint
+    } if
+  } if
+} bind def
+
+/EndEPSF {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+%%EndResource
+%%BeginResource: procset Enscript-Encoding-88591 1.6 4
+/encoding_vector [
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclam       	/quotedbl     	/numbersign   	
+/dollar       	/percent      	/ampersand    	/quoteright   	
+/parenleft    	/parenright   	/asterisk     	/plus         	
+/comma        	/hyphen       	/period       	/slash        	
+/zero         	/one          	/two          	/three        	
+/four         	/five         	/six          	/seven        	
+/eight        	/nine         	/colon        	/semicolon    	
+/less         	/equal        	/greater      	/question     	
+/at           	/A            	/B            	/C            	
+/D            	/E            	/F            	/G            	
+/H            	/I            	/J            	/K            	
+/L            	/M            	/N            	/O            	
+/P            	/Q            	/R            	/S            	
+/T            	/U            	/V            	/W            	
+/X            	/Y            	/Z            	/bracketleft  	
+/backslash    	/bracketright 	/asciicircum  	/underscore   	
+/quoteleft    	/a            	/b            	/c            	
+/d            	/e            	/f            	/g            	
+/h            	/i            	/j            	/k            	
+/l            	/m            	/n            	/o            	
+/p            	/q            	/r            	/s            	
+/t            	/u            	/v            	/w            	
+/x            	/y            	/z            	/braceleft    	
+/bar          	/braceright   	/tilde        	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclamdown   	/cent         	/sterling     	
+/currency     	/yen          	/brokenbar    	/section      	
+/dieresis     	/copyright    	/ordfeminine  	/guillemotleft	
+/logicalnot   	/hyphen       	/registered   	/macron       	
+/degree       	/plusminus    	/twosuperior  	/threesuperior	
+/acute        	/mu           	/paragraph    	/bullet       	
+/cedilla      	/onesuperior  	/ordmasculine 	/guillemotright	
+/onequarter   	/onehalf      	/threequarters	/questiondown 	
+/Agrave       	/Aacute       	/Acircumflex  	/Atilde       	
+/Adieresis    	/Aring        	/AE           	/Ccedilla     	
+/Egrave       	/Eacute       	/Ecircumflex  	/Edieresis    	
+/Igrave       	/Iacute       	/Icircumflex  	/Idieresis    	
+/Eth          	/Ntilde       	/Ograve       	/Oacute       	
+/Ocircumflex  	/Otilde       	/Odieresis    	/multiply     	
+/Oslash       	/Ugrave       	/Uacute       	/Ucircumflex  	
+/Udieresis    	/Yacute       	/Thorn        	/germandbls   	
+/agrave       	/aacute       	/acircumflex  	/atilde       	
+/adieresis    	/aring        	/ae           	/ccedilla     	
+/egrave       	/eacute       	/ecircumflex  	/edieresis    	
+/igrave       	/iacute       	/icircumflex  	/idieresis    	
+/eth          	/ntilde       	/ograve       	/oacute       	
+/ocircumflex  	/otilde       	/odieresis    	/divide       	
+/oslash       	/ugrave       	/uacute       	/ucircumflex  	
+/udieresis    	/yacute       	/thorn        	/ydieresis    	
+] def
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Courier
+/HFpt_w 10 def
+/HFpt_h 10 def
+/Courier-Bold /HF-gs-font MF
+/HF /HF-gs-font findfont [HFpt_w 0 0 HFpt_h 0 0] makefont def
+/Courier /F-gs-font MF
+/F-gs-font 7 7 SF
+/#copies 1 def
+% Pagedevice definitions:
+gs_languagelevel 1 gt {
+  <<
+    /PageSize [595 842] 
+  >> setpagedevice
+} if
+%%BeginResource: procset Enscript-Header-enscript 1.6 4
+%%IncludeResource: font Times-Bold
+%%IncludeResource: font Times-Roman
+
+% Fonts.
+/Times-Bold /HeaderFont-Bold MF
+/HeaderDateF /HeaderFont-Bold findfont 12 scalefont def
+
+/Times-Roman /HeaderFont-Times MF
+/HeaderHDRF /HeaderFont-Times findfont 14 scalefont def
+
+/HeaderPageNumF /Helvetica-Bold findfont 28.8 scalefont def
+
+/do_header {	% print enscript header
+  gsave
+    d_header_x d_header_y translate
+
+    % light bar
+    0 0 d_header_w d_header_h 2 div Box
+    .95 setgray fill
+
+    % dark gray boxes
+    /dbw d_header_h 2 mul def	% dark box width
+    /dbc .7 def			% dark box color
+
+    % left dark box.
+    0 0 dbw d_header_h Box
+    dbc setgray fill
+
+    0 setgray 
+    HeaderDateF setfont
+    moddatestr dup stringwidth pop dbw exch sub 2 div 
+    d_header_h 2 div 2 add moveto show
+    modtimestr dup stringwidth pop dbw exch sub 2 div 
+    d_header_h 5 div moveto show
+
+    % right dark box
+    d_header_w dbw sub 0 dbw d_header_h Box
+    dbc setgray fill
+
+    HeaderPageNumF setfont
+    1 setgray
+    pagenumstr dup
+    stringwidth pop dbw exch sub 2 div d_header_w dbw sub add
+    d_header_h .2 mul moveto show
+
+    % filename
+    0 setgray 
+    HeaderHDRF setfont
+    d_header_w fname stringwidth pop sub 2 div d_header_h 8 div moveto
+    fname show
+
+    % user supplied header string.
+    user_header_p {
+      /h d_header_h 8 div 5 mul def
+
+      % Implement strict enscript compatibility.
+      user_header_center_str () eq user_header_right_str () eq and {
+        d_header_w user_header_left_str stringwidth pop sub 2 div 
+        h moveto user_header_left_str show
+      } {
+        dbw 5 add h moveto user_header_left_str show
+
+        d_header_w user_header_center_str stringwidth pop sub 2 div 
+        h moveto user_header_center_str show
+
+	d_header_w dbw sub 5 sub user_header_right_str stringwidth pop
+	sub h moveto user_header_right_str show
+      } ifelse
+    } if
+
+  grestore
+} def
+%%EndResource
+/d_page_w 770 def
+/d_page_h 559 def
+/d_header_x 0 def
+/d_header_y 523 def
+/d_header_w 770 def
+/d_header_h 36 def
+/d_footer_x 0 def
+/d_footer_y 0 def
+/d_footer_w 770 def
+/d_footer_h 0 def
+/d_output_w 770 def
+/d_output_h 523 def
+/cols 2 def
+%%EndSetup
+%%Page: (1) 1
+%%BeginPageSetup
+_S
+90 rotate
+36 -577 translate
+/pagenum 1 def
+/fname (vision numerique 1) def
+/fdir () def
+/ftail (vision numerique 1) def
+% User defined strings:
+/pagenumstr (1) def
+/moddatestr (20.01.2010) def
+/modtimestr () def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+column_lines
+do_header
+5 513 M
+(openCV : librairie de vision par ordinateur en open source) s
+5 505 M
+(http://opencv.willowgarage.com/documentation/index.html) s
+5 497 M
+(http://opencv.willowgarage.com/wiki/) s
+5 481 M
+(/* entete a inclure sous Linux) s
+5 473 M
+( */) s
+5 465 M
+(#include <opencv/cv.h>) s
+5 457 M
+(#include <opencv/cvaux.h>) s
+5 449 M
+(#include <opencv/highgui.h>) s
+5 433 M
+(/* compilation) s
+5 425 M
+( */) s
+5 417 M
+(gcc program.cpp `pkg-config --libs opencv`) s
+5 393 M
+(/* afficher une image) s
+5 385 M
+( */) s
+5 377 M
+({) s
+5 369 M
+(  IplImage* img = cvLoadImage \( "./image_001.bmp" \);) s
+5 361 M
+(  cvNamedWindow \( "img_001", CV_WINDOW_AUTOSIZE \);) s
+5 353 M
+(  cvShowImage \( "img_001", img \);) s
+5 345 M
+(  cvWaitKey \( 0 \);) s
+5 337 M
+(  cvReleaseImage \( &img \);) s
+5 329 M
+(  cvDestroyWindow \( "img_001" \);) s
+5 321 M
+(}) s
+5 305 M
+(/* redimensionner ou deplacer une fenetre ) s
+5 297 M
+( * \(Ox en largeur croissant vers la droite) s
+5 289 M
+( *  Oy en hauteur croissant vers le bas\)) s
+5 281 M
+( *) s
+5 273 M
+( *   Ox --->       Oy|) s
+5 265 M
+( *                   |) s
+5 257 M
+( */                  V ) s
+5 249 M
+({) s
+5 241 M
+(  cvResizeWindow \( "main", 200, 100 \); // nom, largeur, hauteur) s
+5 233 M
+(  cvMoveWindow \( "main", 210, 0 \); // nom, position_en_x, position_en_y) s
+5 225 M
+(}) s
+5 209 M
+(/* QUESTION : quelle est la difference entre les 2 blocks suivants ?) s
+5 201 M
+( */) s
+5 193 M
+({) s
+5 185 M
+(  cvNamedWindow \( "main" \);) s
+5 177 M
+(  cvNamedWindow \( "other" \);) s
+5 169 M
+(  cvMoveWindow \( "main", 0, 0 \);) s
+5 161 M
+(  cvMoveWindow \( "other", 330, 0 \);) s
+5 153 M
+(}) s
+5 145 M
+({) s
+5 137 M
+(  cvNamedWindow \( "main" , 0 \);) s
+5 129 M
+(  cvNamedWindow \( "other" , 0 \);) s
+5 121 M
+(  cvResizeWindow \( "main", 200, 200 \);) s
+5 113 M
+(  cvResizeWindow \( "other", 200, 200 \);) s
+5 105 M
+(  cvMoveWindow \( "main", 0, 0 \);) s
+5 97 M
+(  cvMoveWindow \( "other", 210, 0 \);) s
+5 89 M
+(}) s
+390 513 M
+(/* afficher une video) s
+390 505 M
+( */) s
+390 497 M
+({) s
+390 489 M
+(  cvNamedWindow \( "video_001", CV_WINDOW_AUTOSIZE \);) s
+390 481 M
+(  CvCapture* capture = cvCreateFileCapture \( "Cartedevoeux2010.mov"\);) s
+390 473 M
+(  IplImage* frame;) s
+390 465 M
+(  while \( 1 \) {) s
+390 457 M
+(    frame = cvQueryFrame \( capture \);) s
+390 449 M
+(    if \( !frame \) break;) s
+390 441 M
+(    cvShowImage \( "video_001", frame \);) s
+390 433 M
+(    char c = cvWaitKey \(17\);) s
+390 425 M
+(    if \( c == 27 \) break;) s
+390 417 M
+(  }) s
+390 409 M
+(  cvReleaseCapture \( &capture \); ) s
+390 401 M
+(  cvDestroyWindow \( "video_001" \);) s
+390 393 M
+(}) s
+390 377 M
+(/* convention de nommage des fonctions openCV) s
+390 369 M
+( */) s
+390 361 M
+({) s
+390 353 M
+(  cvActionTargetMod\(...\)) s
+390 337 M
+(  /* avec) s
+390 329 M
+(    Action = coeur de la fonctionnalite \(ex: create pour creation\)) s
+390 321 M
+(    Target = aire cible de l'image \(ex: contour, polygon, ...\)) s
+390 313 M
+(    Mod    = modificateurs optionnels \(ex: arguments de fonctionnalite\)) s
+390 305 M
+(  */) s
+390 297 M
+(}) s
+390 281 M
+(/* effet sur une image : application d'un flou) s
+390 273 M
+( * les types de flou : CV_BLUR_NO_SCALE, CV_BLUR,) s
+390 265 M
+( *                     CV_GAUSSIAN, CV_MEDIAN, CV_BILATERAL) s
+390 257 M
+( * cvSmooth se termine par 3 arguments egaux par defaut a zero) s
+390 249 M
+( */) s
+390 241 M
+({) s
+390 233 M
+(  IplImage* img = cvLoadImage \( "./image_001.bmp" \);) s
+390 225 M
+(  if \( img \) {) s
+390 217 M
+(    IplImage* cvg = cvCreateImage \( cvGetSize \( img \), IPL_DEPTH_8U, 3 \);) s
+390 209 M
+(    cvSmooth \( img, cvg, CV_GAUSSIAN, 11 \); // exception, arg2=arg1 et arg3=0) s
+390 201 M
+(  }) s
+390 193 M
+(}) s
+390 177 M
+(/* CV_BLUR_NO_SCALE : somme sur arg1xarg2 pixels) s
+390 169 M
+( * CV_BLUR : somme precedante norm\303\251e) s
+390 161 M
+( * CV_GAUSSIAN : convolution avec noyau gaussian) s
+390 153 M
+( * CV_MEDIAN : pixel median sur voisinage carr\303\251) s
+390 145 M
+( * CV_BILATERAL : flou bilateral ) s
+390 137 M
+( */) s
+390 121 M
+(/* structures de base) s
+390 113 M
+( */) s
+390 105 M
+(typedef struct CvPoint {) s
+390 97 M
+(  int x;) s
+390 89 M
+(  int y;) s
+390 81 M
+(} CvPoint;) s
+390 65 M
+(typedef struct CvSize {) s
+390 57 M
+(  int width;) s
+390 49 M
+(  int height;) s
+390 41 M
+(} CvSize;) s
+_R
+S
+%%Page: (2) 2
+%%BeginPageSetup
+_S
+90 rotate
+36 -577 translate
+/pagenum 2 def
+/fname (vision numerique 1) def
+/fdir () def
+/ftail (vision numerique 1) def
+% User defined strings:
+/pagenumstr (2) def
+/moddatestr (20.01.2010) def
+/modtimestr () def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+column_lines
+do_header
+5 513 M
+(typedef struct CvRect {) s
+5 505 M
+(  int x;) s
+5 497 M
+(  int y;) s
+5 489 M
+(  int width;) s
+5 481 M
+(  int height;) s
+5 473 M
+(} CvRect;) s
+5 457 M
+(typedef struct CvScalar {) s
+5 449 M
+(  double val [4];) s
+5 441 M
+(} CvScalar;) s
+5 425 M
+(typedef struct _IplImage {) s
+5 417 M
+(  int  nSize;) s
+5 409 M
+(  int  ID;) s
+5 401 M
+(  int  nChannels;) s
+5 393 M
+(  int  alphaChannel;) s
+5 385 M
+(  int  depth;) s
+5 377 M
+(  char colorModel [4];) s
+5 369 M
+(  char channelSeq [4];) s
+5 361 M
+(  int  dataOrder;) s
+5 353 M
+(  int  origin;) s
+5 345 M
+(  int  align;) s
+5 337 M
+(  int  width;) s
+5 329 M
+(  int  height;) s
+5 321 M
+(  struct _IplROI *roi;) s
+5 313 M
+(  struct _IplImage *maskROI;) s
+5 305 M
+(  void  *imageId;) s
+5 297 M
+(  struct _IplTileInfo *tileInfo;) s
+5 289 M
+(  int  imageSize;) s
+5 281 M
+(  char *imageData;) s
+5 273 M
+(  int  widthStep;) s
+5 265 M
+(  int  BorderMode [4];) s
+5 257 M
+(  int  BorderConst [4];) s
+5 249 M
+(  char *imageDataOrigin;) s
+5 241 M
+(} IplImage;) s
+5 225 M
+(/* creer une copie d'une image) s
+5 217 M
+( */) s
+5 209 M
+({) s
+5 201 M
+(  IplImage* img = cvLoadImage \( "./image_001.bmp" \);) s
+5 193 M
+(  if\(!img\) { fprintf\(stderr, "error\\n"\); }) s
+5 185 M
+(  else {) s
+5 177 M
+(    IplImage* clone = cvCloneImage \( img \);) s
+5 169 M
+(    //...) s
+5 161 M
+(    cvReleaseImage \( &img \);) s
+5 153 M
+(    cvReleaseImage \( &clone \);) s
+5 145 M
+(  }) s
+5 137 M
+(}) s
+5 121 M
+(/* inverser une image \(avec acces indirect\)) s
+5 113 M
+( */) s
+5 105 M
+({) s
+5 97 M
+(  IplImage* img = cvLoadImage\( "./image_001.bmp" \);) s
+5 89 M
+(  IplImage* cvg = cvCloneImage\(img\);) s
+5 73 M
+(  for \( int x = 0; x < img->width; x++\) {) s
+5 65 M
+(    for \( int y = 0; y < img->height; y++\) {) s
+5 57 M
+(      CvScalar scalar=cvGet2D\(img, y, x\);) s
+5 49 M
+(      for \( int k = 0; k < img->nChannels; k++\) {) s
+5 41 M
+(        scalar.val[k] = 255-scalar.val[k];) s
+5 33 M
+(      }) s
+5 25 M
+(      cvSet2D\(cvg, y, x, scalar\);) s
+5 17 M
+(    }) s
+5 9 M
+(  }) s
+390 505 M
+(  cvReleaseImage\( &img \);) s
+390 497 M
+(  cvReleaseImage\( &cvg \);) s
+390 489 M
+(}) s
+390 473 M
+(/* creer une video par transformation de la video precedente) s
+390 465 M
+( */) s
+390 457 M
+({) s
+390 449 M
+(  CvCapture* capture = cvCreateFileCapture \( "Cartedevoeux2010.mov"\);) s
+390 441 M
+(  CvVideoWriter *writer = cvCreateVideoWriter\("out.avi", ) s
+390 433 M
+(                                              CV_FOURCC\('P','I','M','1'\),) s
+390 425 M
+(                                              25, cvSize\(640,480\), 1\);) s
+390 417 M
+(  IplImage* img = 0; ) s
+390 409 M
+(  while \( 1 \) {) s
+390 401 M
+(    img = cvQueryFrame \( capture \);) s
+390 393 M
+(    if \( !img \) break;) s
+390 385 M
+(    IplImage* transformed_img = cvCloneImage \( img \);) s
+390 377 M
+(    // tranform img here) s
+390 369 M
+(    // ...) s
+390 361 M
+(    // ) s
+390 353 M
+(    cvWriteFrame \( writer, img \);      ) s
+390 345 M
+(    cvReleaseImage \( &transformed_img \);) s
+390 337 M
+(  }) s
+390 329 M
+(  cvReleaseCapture \( &capture \); ) s
+390 321 M
+(  cvReleaseVideoWriter \( &writer \);) s
+390 313 M
+(}) s
+390 297 M
+(/* creer une image noir&blanc a 1 canal de 1 bit) s
+390 289 M
+( */) s
+390 281 M
+({) s
+390 273 M
+(  IplImage* img1 = cvCreateImage \( cvSize \( 640, 480\) , IPL_DEPTH_8U, 1 \); ) s
+390 265 M
+(}) s
+390 249 M
+(/* creer une image couleur 3 canaux de 32bits float) s
+390 241 M
+( */) s
+390 233 M
+({) s
+390 225 M
+(  IplImage* img2 = cvCreateImage \( cvSize \( 640, 480\) , IPL_DEPTH_32F, 3 \);) s
+390 217 M
+(}) s
+390 201 M
+(/* sauvegarder une image dans un fichier) s
+390 193 M
+( */) s
+390 185 M
+({) s
+390 177 M
+(  IplImage* img;) s
+390 169 M
+(  //...) s
+390 161 M
+(  char* outFileName = "out.jpg";) s
+390 153 M
+(  if \(! cvSaveImage \( outFileName, img \) \) {) s
+390 145 M
+(    printf \( "Could not save: %s\\n", outFileName \);) s
+390 137 M
+(  }) s
+390 129 M
+(}) s
+_R
+S
+%%Page: (3) 3
+%%BeginPageSetup
+_S
+90 rotate
+36 -577 translate
+/pagenum 3 def
+/fname (vision numerique 1) def
+/fdir () def
+/ftail (vision numerique 1) def
+% User defined strings:
+/pagenumstr (3) def
+/moddatestr (20.01.2010) def
+/modtimestr () def
+/user_header_p false def
+/user_footer_p false def
+%%EndPageSetup
+column_lines
+do_header
+5 513 M
+(/* espaces de couleurs) s
+5 505 M
+( *) s
+5 497 M
+( * RGB Red Green Blue) s
+5 489 M
+( * YCrCb Luminance Chrominance \(ou YUV\)) s
+5 481 M
+( * HSV Hue Saturation Value) s
+5 473 M
+( *   Hue est la teinte de la couleur) s
+5 465 M
+( *   Saturation definit l'intensite de la couleur) s
+5 457 M
+( *   Value definit la brillance de la couleur  ) s
+5 449 M
+( */) s
+5 433 M
+(/* conversion implicite d'une image en niveaux de gris) s
+5 425 M
+( * 3 modes de conversion sont possibles) s
+5 417 M
+( */) s
+5 409 M
+({) s
+5 401 M
+(  IplImage* img = cvLoadImage \( "./image_001.bmp" \);) s
+5 385 M
+(  IplImage* g1 = cvCreateImage \( cvSize\(img->width, img->height\) , IPL_DEPTH_8U, 1 \); ) s
+5 377 M
+(  IplImage* g2 = cvCreateImage \( cvSize\(img->width, img->height\) , IPL_DEPTH_8U, 1 \); ) s
+5 369 M
+(  IplImage* g3 = cvCreateImage \( cvSize\(img->width, img->height\) , IPL_DEPTH_8U, 1 \); ) s
+5 353 M
+(  cvConvertImage \(img, g1 \);) s
+5 345 M
+(  cvConvertImage \(img, g2, CV_CVTIMG_FLIP \);) s
+5 337 M
+(  cvConvertImage \(img, g3, CV_CVTIMG_SWAP_RB \);) s
+5 321 M
+(  // ...) s
+5 305 M
+(  cvReleaseImage \( &img \);) s
+5 297 M
+(  cvReleaseImage \( &g1 \);) s
+5 289 M
+(  cvReleaseImage \( &g2 \);) s
+5 281 M
+(  cvReleaseImage \( &g3 \);) s
+5 273 M
+(}) s
+5 257 M
+(/* QUESTION : quelles sont les differences entre ces 3 conversions ?) s
+5 249 M
+( */) s
+5 233 M
+(/* conversion explicite en niveaux de gris) s
+5 225 M
+( */) s
+5 217 M
+({) s
+5 209 M
+(  cvCvtColor \( img, g1, CV_BGR2GRAY \); ) s
+5 201 M
+(}) s
+5 185 M
+(/* conversion explicite dans un espace de couleurs) s
+5 177 M
+( * necessite la definition d'un code) s
+5 169 M
+( * code = CV_<X>2<Y>) s
+5 161 M
+( * <X>|<Y> = RGB, BGR, GRAY, HSV, YCrCb) s
+5 153 M
+( * ex: CV_BGR2HSV) s
+5 145 M
+( *) s
+5 137 M
+( * voir http://www.fourcc.org/ pour le detail des espaces de couleurs ) s
+5 129 M
+( */) s
+5 113 M
+(/* QUESTION : convertir et visualiser une image RGB en YUV ) s
+5 105 M
+( */) s
+5 89 M
+(/* QUESTION : visualiser chaque canaux d'une image dans une fenetre independante) s
+5 81 M
+( *            en RGB et en YCrCb) s
+5 73 M
+( */) s
+5 57 M
+(/* dessiner un rectangle en rouge avec un trait d'epaisseur 1 ) s
+5 49 M
+( * entre \(100,100\) et \(200,200\)) s
+5 41 M
+( */) s
+5 33 M
+({) s
+5 25 M
+(  cvRectangle \( img, cvPoint\(100,100\), cvPoint\(200,200\), cvScalar\(255,0,0\), 1 \);) s
+5 17 M
+(}) s
+390 513 M
+(/* dessiner un cercle centre en \(100,100\) avec un rayon de 20) s
+390 505 M
+( * avec un trait vert d'epaisseur 2) s
+390 497 M
+({) s
+390 489 M
+(  cvCircle \( img, cvPoint\(100,100\), 20, cvScalar\(0,255,0\), 2 \);) s
+390 481 M
+(}) s
+390 465 M
+(/* dessiner une ligne bleue d'epaisseur 1 tel que y = x) s
+390 457 M
+( */) s
+390 449 M
+({) s
+390 441 M
+(  int min = width;) s
+390 433 M
+(  if \( height < width \) {) s
+390 425 M
+(    min = height;) s
+390 417 M
+(  }) s
+390 409 M
+(  cvLine \( img, cvPoint\(0,0\), cvPoint\(min,min\), cvScalar\(0,0,255\), 1\);) s
+390 401 M
+(}) s
+390 385 M
+(/* dessiner une succession de segments) s
+390 377 M
+( */) s
+390 369 M
+({) s
+390 361 M
+(  CvPoint  curve1[]={10,10,  10,100,  100,100,  100,10};) s
+390 353 M
+(  CvPoint  curve2[]={30,30,  30,130,  130,130,  130,30,  150,10};) s
+390 345 M
+(  CvPoint* curveArr[2]={curve1, curve2};) s
+390 337 M
+(  int      nCurvePts[2]={4,5};) s
+390 329 M
+(  int      nCurves=2;) s
+390 321 M
+(  int      isCurveClosed=1;) s
+390 313 M
+(  int      lineWidth=1;) s
+390 297 M
+(  cvPolyLine \( img, curveArr, nCurvePts, nCurves, isCurveClosed,) s
+390 289 M
+(               cvScalar\(0,255,255\), lineWidth \);) s
+390 281 M
+(}) s
+390 265 M
+(/* dessiner un polygone plein) s
+390 257 M
+( */) s
+390 249 M
+({) s
+390 241 M
+(  cvFillPoly \( img, curveArr, nCurvePts, nCurves, cvScalar\(0,255,255\) \);) s
+390 233 M
+(}) s
+390 217 M
+(/* detection de contour \(filtre de Canny\)) s
+390 209 M
+( */) s
+390 201 M
+({) s
+390 193 M
+(  IplImage* img = cvLoadImage \( "image_001.bmp" \);) s
+390 177 M
+(  IplImage *img_bin = cvCreateImage \(cvGetSize\(img\), 8, 1\);) s
+390 169 M
+(  IplImage *img_canny = cvCreateImage \(cvGetSize\(img\), 8, 1\);) s
+390 161 M
+(  ) s
+390 153 M
+(  cvConvertImage \(img, img_bin, 0\);) s
+390 145 M
+(  cvCanny \( img_bin, img_canny, 50, 200, 3 \);) s
+390 129 M
+(  //...) s
+390 113 M
+(  cvReleaseImage \( &img \);) s
+390 105 M
+(  cvReleaseImage \( &img_bin \);) s
+390 97 M
+(  cvReleaseImage \( &img_canny \);) s
+390 89 M
+(}) s
+390 73 M
+(/* QUESTION : visualiser les deux images img_bin et img_canny mentionnees ci-dessus) s
+390 65 M
+( */) s
+_R
+S
+%%Trailer
+%%Pages: 3
+%%DocumentNeededResources: font Times-Roman Courier-Bold Courier 
+%%+ font Times-Bold 
+%%EOF
