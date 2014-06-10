@@ -1,0 +1,53 @@
+ABAK-KALI Nizar 11290569
+	  INSTALLATION DE FUERTE 
+
+02/06/2014
+-----------
+lien du tuto d'installation (en)
+http://wiki.ros.org/fuerte/Installation/Ubuntu
+
+1/recuperation des source list puis ajout 
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu precise main" > /etc/apt/sources.list.d/ros-latest.list'
+
+2/recuperation des clés
+wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+
+3/on update 
+sudo apt-get update 
+
+4/reboot 
+sudo reboot now 
+
+5/on install la version complète de fuerte 
+sudo apt-get install ros-fuerte-desktop-full
+
+6/on change l'environement de notre shell courrant avec la commande :
+source /opt/ros/fuerte/setup.bash
+ou  pour que l'export se face a chaque demarage
+echo "source /opt/ros/fuerte/setup.bash" >> ~/.bashrc
+. ~/.bashrc
+
+MANAGEMENT DE L'ENVIRONNEMENT
+
+http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment
+
+7/on installe python-rosinstall et python-rosdep
+     rosinstall va servir à télecharger de maniere facile les arbres de code pour les package ROS
+     rosdep nous permet d'installer facilement les dependance pour le code source que l'on vas compilé
+sudo apt-get install python-rosinstall python-rosdep
+
+8/On creer le work space 
+rosws init ~/fuerte_workspace /opt/ros/fuerte
+
+9/Creation d'un "bac à sable" pour tester les packages que l'on creer avant de les integrer 
+mkdir ~/fuerte_workspace/sandbox
+rosws set ~/fuerte_workspace/sandbox
+PENSER A TOUJOURS FAIRE UN source a chaque modif du workspace 
+source ~/fuerte_workspace/setup.bash
+
+10/verication du ROS_PACKAGE_PATH
+$ echo $ROS_PACKAGE_PATH
+sa le resultat donné doit ressemblé a sa 
+/home/your_user_name/fuerte_workspace/sandbox:/opt/ros/fuerte/share:/opt/ros/fuerte/stacks
+et le mien ressemble a sa 
+/local_home/nizar/fuerte_workspace/sandbox:/opt/ros/fuerte/stacks:/opt/ros/fuerte/share:/opt/ros/fuerte/share/ros
