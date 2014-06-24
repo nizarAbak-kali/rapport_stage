@@ -1,0 +1,72 @@
+PUBLISHER/SUBSCRIBER python
+===========================
+:Author: ABAK-KALI Nizar
+:Email: nizarabakkali93@gmail.com
+:Date: 04/06/2014
+
+
+
+
+ceci est un petit rapport qui vas expliquer le premier publisher qui nous est donné de faire dans le tuto en ligne 
+
+== Les Imports :
+
+==== rospy
+pour ecrire des noeuds en python sur ROS .
+
+==== from std_msgs.msg import String
+pour utiliser des string comme recipient pour nos messages que l'on va publier
+
+== Le Code :
+
+=== Le Publisher :
+
+==== L'interface de communication
+
+.Le Publisher
+----
+	pub = rospy.Publisher('chatter', String, queue_size=10)
+----
+on declare pub comme etant un publisher sur le topic 'chatter' , puis que le type de message envoyé est de type String , et le troisieme parametre est la nombre de message que peut contenir la queue . +
+WARNING: *Present que sur hYDRO PAS SUR QUE SA MARCHE SUR FUERTE!!!!*
+
+.L'init
+----
+	rospy.init_node('talker', anonymous=True)
+----
+Ligne tres importante qui donne a rospy le nom du noeud , sans cela on ne peut communiquer avec le ROS Master. (meme contrainte sur le nom que avec roscpp).
+
+.La frequece d'emission
+----
+ r = rospy.Rate(10) # 10hz
+----
+Cette creer un objet rate la frquence a laquelle on veut ecrire sur le topic est ici  de 10Hz soit du operation par second .
+
+==== La BOUCLE 
+.Boucle d'envoie sur ROS 
+----
+    while not rospy.is_shutdown():
+        str = "hello world %s"%rospy.get_time()
+        rospy.loginfo(str)
+        pub.publish(str)
+        r.sleep()
+----
+	* on verfie que si on doit exit ou non le programme a l'aide de rospy.is_shutdown()
+	* on creer notre message str  
+	* on ecrit dans les ros log info la chaine str
+	* notre objet publisher pub publie str sur le topic chatter
+	* l'objet Rate endort le noeud pour coller a la fraquence demander
+-> finalement on appelle la fonction dans le main avec une execption qui evite que le programme continue de tourner par accident .
+
+
+=== Le Subsriber :
+
+==== Version condenséé du code :
+
+     * on initialise ROS (pareil que pour publisher)
+     * on s'inscrit au topic (dans notre cas chatter)
+     * on "spin()" cad  on attend un message pour qu'il arrive , continuera d'exister tant qu'on ne le stoppe pas . 
+     * quand le message arrive la fonction Callback() est appellé +
+NOTE: Callback est une fonction qui ecrit dans les log info le message recue (dans notre cas ).
+
+

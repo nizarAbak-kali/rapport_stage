@@ -1,0 +1,97 @@
+Installation de tum simulator / ardrone /ardrone teleop
+===========================
+:Author: ABAK-KALI Nizar
+:Email: nizarabakkali93@gmail.com
+:Date: 10/06/2014
+
+
+link:http://powerman.name/doc/asciidoc
+
+= installation ardrone autonomy 
+
+== Telechargement de tout les packages
+
+Dans un premier temps on recupere les packages de ardrone et de tum simulator qui marche sur fuerte depuis le lien 
+
+https://mega.co.nz/#!3BFzTI7B!C5CuWk97AjRnFdWWFFepzxD0OkNglg7CKE7oPgJzLXY
+
+== installation de ardrone_autonomy
+
+. on decompresse le ardrone_autonomy
+
+----
+tar xvzf ardrone_autonomy
+----
+
+-> suite on copy le tout dans le sandbox de notre fuerteworkspace 
+
+. ensuite on export le nouveau package dans le ROS_PACKAGE_PATH
+
+----
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:`pwd`/ardrone_autonomy
+----
+
+. on build le sdk 
+
+----
+./build_sdk.sh
+----
+
+. on se place dans le dossier build de ardrone autonomy
+
+----
+roscd ardrone_autonomy/build/
+----
+
+-> puis on edite le CMakeCache.txt pour y changer toutes les apparition de : "/home/n/fuerte_workspace/sandbox/" par "/home/user_name/fuerte_workspace/sandbox/"
+
+.on rebuild le sdk 
+
+.on compile le package 
+
+----
+rosmake ardrone_autonomy
+----
+
+== installation de ardrone_helper 
+
+-> l'installation de l'ardrone helper se fait a peu pres de la meme maniere que precedement . Donc explication plus rapide 
+
+
+-> on decompresse le package et on le copie dans notre sandbox 
+
+-> puis on export de la meme maniere que plus haut 
+
+----
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:`pwd`/ardrone_helpers
+----
+
+-> fais les memes changement sur tout CMakeCache.txt pour tout les packages ardrone_joystick et joy de la meme maniere que pour ardrone_autonomy
+
+puis on rosmake les deux fichiers :
+
+----
+rosmake ardrone_joystick
+rosmake joy
+----
+
+== installation de tum_simulator 
+
+on se place sur l'environnement de travail  
+----
+roscd
+----
+on copie le package comme en haut 
+puis on ajoute le package dans l'environnement 
+----
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:`pwd`/tum_simulator
+----
+
+puis de la meme maniere que en haut on modifie le CMakeCache de tout les package present a l'interieur de la meme stack qu'est tum_simulator
+
+-> puis on make les package utile:
+
+----
+rosmake cvg_sim_gazebo_plugins
+rosmake message_to_tf
+----

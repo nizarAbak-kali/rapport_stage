@@ -1,0 +1,16 @@
+:Author: ABAK-KALI Nizar 
+:Num etudiant: 1290569
+:Date: 11/06/2014
+
+= RAPPORT DE STAGE 
+
+  -> installation de fuerte et de groovy sur une machine ubuntu 12.04: en cours : fait 
+  -> redaction du rapport sur l'installation : fait 
+  
+
+  . OBJECTIF :
+  
+  -> etude de ardrone autonomy 
+  -> etude de ardrone joystick 
+  
+  -> voir comment creer un package de teleopération puis voir comment l'adapter a Walkera (car c'est un peu mon stage ^^)
