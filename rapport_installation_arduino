@@ -1,0 +1,51 @@
+Arduino 
+===========================
+:Author: ABAK-KALI Nizar
+:Email: nizarabakkali93@gmail.com
+:Date: 26/06/2014
+
+
+Installation de Arduino :
+------------------------
+
+link:http://playground.arduino.cc/Linux/Ubuntu
+
+.installer Arduino avec :
+----
+sudo apt-get update && sudo apt-get install arduino arduino-core  
+----
+
+.On reboot 
+
+.puis on install les package ROS :
+----
+$ sudo apt-get update 
+$ sudo apt-get install ros-hydro-rosserial-arduino
+$ sudo apt-get install ros-hydro-rosserial
+----
+
+=SI SA MARCHE PAS INSTALLATION MANUELLE 
+----
+  cd <ws>/src
+  git clone https://github.com/ros-drivers/rosserial.git
+  cd <ws>
+  catkin_make
+  catkin_make install
+  source <ws>/install/setup.bash
+----
+
+.ENSUITE on met en place l'IDE:
+
+link:http://wiki.ros.org/rosserial_arduino/Tutorials/Arduino IDE Setup
+
+.Installation de roslib :
+roslib : pour pouvoir faire interagir les programme Arduino avec ROS .
+Note: you have to delete libraries/ros_lib in order to regenerate as its existence causes an error.
+
+
+----
+  cd <sketchbook>/libraries
+  rm -rf ros_lib
+  rosrun rosserial_arduino make_libraries.py
+----
+
