@@ -1,0 +1,42 @@
+
+remerciements(1p)
+
+sommaire
+
+Intro 
+
+Deroulement du stage (1p)
+->diagramme de gantt
++ commentaire du diagramme 
+
+ 
+Problematique (1p)
+-objectif final du stage 
+-OPT1: * lien avec les deux autres sujets 
+
+
+Existant(1-2p)
+-inmoov
+-ros + arduino
+-different type main (shadow-harm...)
+
+
+Solutions (9p)
+   - les sous pb :  (5p)    
+      * controle servo moteur (1/2-1p)
+      * controle servo moteur serie (1p) 
+      * module de controle ROS (1p)
+      * comm° inter module (1p)
+      OPT1: * lien avec les deux autres sujets (1p au moins) 
+   - application pratique : (4p)
+      * N liaisons servo moteur vs 1 liaison moteur serie (1p)
+      * precision/couple servo classique vs servo serie (1p)
+      * architecture servo serie HDW  (1p)
+      * architecture servo serie SFTW  (1p)
+Experimentation (5p)
+   - montage (1p-2p)+comment
+   - protocole (1p)
+   - resultats (tab + commennts)(2p)
+         
+
+Conclusion (2p)
