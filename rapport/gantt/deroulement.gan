@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Stage_Main_Robot" company="LIASD" webLink="http://" view-date="2014-06-10" view-index="0" gantt-divider-location="437" resource-divider-location="300" version="2.0" locale="fr">
+    <description><![CDATA[Diagramme de gantt montrant de le deroulement du stage ]]></description>
+    <view zooming-state="default:0" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="42" order="0"/>
+        <field id="tpd4" name="Date de début" width="19" order="1"/>
+        <field id="tpd5" name="Date de fin" width="19" order="2"/>
+        <field id="tpc0" name="" width="18" order="3"/>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nom" width="50" order="0"/>
+        <field id="1" name="Rôle par défaut" width="50" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <calendar id="1" name="default">
+                <default-week sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+                <only-show-weekends value="false"/>
+                <overriden-day-types/>
+                <days/>
+            </calendar>
+        </day-types>
+        <date year="2012" month="1" date="2"/>
+        <date year="2012" month="4" date="9"/>
+        <date year="2012" month="5" date="17"/>
+        <date year="2012" month="5" date="28"/>
+        <date year="2012" month="11" date="12"/>
+        <date year="2005" month="3" date="28"/>
+        <date year="" month="1" date="1"/>
+        <date year="" month="5" date="1"/>
+        <date year="" month="5" date="8"/>
+        <date year="" month="7" date="14"/>
+        <date year="" month="8" date="15"/>
+        <date year="" month="11" date="1"/>
+        <date year="" month="11" date="11"/>
+        <date year="" month="12" date="25"/>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+            <taskproperty id="tpc0" name="" type="custom" valuetype="text"/>
+        </taskproperties>
+        <task id="0" name="rencontre avec l'equipe" color="#8cb6ce" meeting="false" start="2014-06-16" duration="1" complete="100" expand="true"/>
+        <task id="2" name="Installations" color="#ccff00" meeting="false" start="2014-06-17" duration="1" complete="0" expand="true">
+            <task id="4" name="Installation de ROS Fuerte" meeting="false" start="2014-06-17" duration="1" complete="0" expand="true"/>
+        </task>
+        <task id="3" name="Prise en main de ROS Fuerte" color="#000000" meeting="false" start="2014-06-17" duration="4" complete="0" expand="true">
+            <task id="14" name="creation des premiers noeud" meeting="false" start="2014-06-17" duration="1" complete="0" expand="true">
+                <depend id="16" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="16" name="creations des premiers service" meeting="false" start="2014-06-18" duration="1" complete="0" expand="true">
+                <depend id="18" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="18" name="creation des premiers publisher/subscriber" meeting="false" start="2014-06-19" duration="1" complete="0" expand="true">
+                <depend id="20" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="20" name="redaction de la documentation su ce qui a été fait" meeting="false" start="2014-06-20" duration="1" complete="0" expand="true">
+                <depend id="6" type="2" difference="0" hardness="Strong"/>
+            </task>
+        </task>
+        <task id="6" name="tâche_6" meeting="false" start="2014-06-23" duration="1" complete="0" expand="true"/>
+        <task id="5" name="tâche_5" meeting="false" start="2014-05-22" duration="1" complete="0" expand="true"/>
+        <task id="7" name="tâche_7" meeting="false" start="2014-05-22" duration="1" complete="0" expand="true"/>
+        <task id="8" name="tâche_8" meeting="false" start="2014-05-22" duration="1" complete="0" expand="true"/>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <taskdisplaycolumns>
+        <displaycolumn property-id="tpd2" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd7" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd6" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd10" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd11" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd1" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd9" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd8" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd0" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd3" order="0" width="182" visible="true"/>
+        <displaycolumn property-id="tpd4" order="1" width="84" visible="true"/>
+        <displaycolumn property-id="tpd5" order="2" width="85" visible="true"/>
+        <displaycolumn property-id="tpc0" order="3" width="82" visible="true"/>
+    </taskdisplaycolumns>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles roleset-name="SoftwareDevelopment"/>
+</project>
